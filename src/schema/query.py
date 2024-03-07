@@ -76,7 +76,10 @@ class Query(graphene.ObjectType):
 
     @staticmethod
     def resolve_places(
-        parent: Optional[dict], info: ResolveInfo,  page: int | None = None, size: int | None = None,
+        parent: Optional[dict],
+        info: ResolveInfo,
+        page: int | None = None,
+        size: int | None = None,
     ) -> Optional[list[PlaceModel]]:
         """
         Получение списка объектов любимых мест.

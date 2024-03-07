@@ -70,7 +70,7 @@ class PlacesClient(BaseClient):
         return None
 
     def update_place(
-            self, place_id: int, place: UpdatePlaceModel
+        self, place_id: int, place: UpdatePlaceModel
     ) -> tuple[bool, PlaceModel | None]:
         """
         Обновление объекта любимого места по его идентификатору.

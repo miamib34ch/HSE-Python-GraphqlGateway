@@ -37,7 +37,9 @@ class PlacesService:
 
         return PlacesClient().create_place(place)
 
-    def update_place(self, place_id: int, model: UpdatePlaceModel) -> tuple[bool, PlaceModel | None]:
+    def update_place(
+        self, place_id: int, model: UpdatePlaceModel
+    ) -> tuple[bool, PlaceModel | None]:
         return PlacesClient().update_place(place_id, model)
 
     def delete_place(self, place_id: int) -> bool:
