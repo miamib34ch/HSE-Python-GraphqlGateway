@@ -18,14 +18,14 @@ class PlacesService:
 
         return PlacesClient().get_place(place_id)
 
-    def get_places(self) -> Optional[list[PlaceModel]]:
+    def get_places(self, page: int, size: int) -> Optional[list[PlaceModel]]:
         """
         Получение списка любимых мест.
 
         :return:
         """
 
-        return PlacesClient().get_list()
+        return PlacesClient().get_list(page=page, size=size)
 
     def create_place(self, place: PlaceModel) -> Optional[PlaceModel]:
         """

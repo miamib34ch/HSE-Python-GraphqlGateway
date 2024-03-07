@@ -33,20 +33,23 @@ class PlacesClient(BaseClient):
 
         return None
 
-    def get_list(self) -> Optional[list[PlaceModel]]:
+    def get_list(self, page: int, size: int) -> Optional[list[PlaceModel]]:
         """
         Получение списка любимых мест.
-        TODO: добавить пагинацию.
+
+        :param page: Номер страницы.
+        :param size: Количество объектов на странице.
         :return:
         """
 
         endpoint = "/api/v1/places"
         query_params = {
-            "limit": 20,
+            "page": page,
+            "size": size,
         }
         url = urljoin(self.base_url, f"{endpoint}?{urlencode(query_params)}")
         if response := self._request(self.GET, url):
-            return [self.__build_model(place) for place in response.get("data", [])]
+            return [self.__build_model(place) for place in response.get("items", [])]
 
         return None
 
