@@ -54,7 +54,7 @@ class CountriesClient(BaseClient):
                     currencies=country.get("currencies"),
                     languages=country.get("languages"),
                 )
-                for country in response
+                for country in response.get("results", [])
             ]
 
         return None
