@@ -1,4 +1,4 @@
-# GraphQL API Gateway 
+# GraphQL API Gateway
 
 GraphQL API Gateway for microservices interaction.
 
