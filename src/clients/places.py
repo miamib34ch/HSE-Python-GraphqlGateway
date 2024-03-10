@@ -3,7 +3,7 @@ from typing import Optional
 from urllib.parse import urlencode, urljoin
 
 from src.clients.base.base import BaseClient
-from src.models.places import PlaceModel
+from src.models.places import PlaceModel, UpdatePlaceModel
 from src.settings import settings
 
 
@@ -33,20 +33,23 @@ class PlacesClient(BaseClient):
 
         return None
 
-    def get_list(self) -> Optional[list[PlaceModel]]:
+    def get_list(self, page: int, size: int) -> Optional[list[PlaceModel]]:
         """
         Получение списка любимых мест.
-        TODO: добавить пагинацию.
+
+        :param page: Номер страницы.
+        :param size: Количество объектов на странице.
         :return:
         """
 
         endpoint = "/api/v1/places"
         query_params = {
-            "limit": 20,
+            "page": page,
+            "size": size,
         }
         url = urljoin(self.base_url, f"{endpoint}?{urlencode(query_params)}")
         if response := self._request(self.GET, url):
-            return [self.__build_model(place) for place in response.get("data", [])]
+            return [self.__build_model(place) for place in response.get("items", [])]
 
         return None
 
@@ -65,6 +68,25 @@ class PlacesClient(BaseClient):
                 return self.__build_model(place_data)
 
         return None
+
+    def update_place(
+        self, place_id: int, place: UpdatePlaceModel
+    ) -> tuple[bool, PlaceModel | None]:
+        """
+        Обновление объекта любимого места по его идентификатору.
+
+        :param place_id: Идентификатор объекта.
+        :param place: Объект любимого места для обновления.
+        :return:
+        """
+
+        endpoint = f"/api/v1/places/{place_id}"
+        url = urljoin(self.base_url, endpoint)
+        if response := self._request(self.PATCH, url, body=place.dict()):
+            if place_data := response.get("data"):
+                return True, self.__build_model(place_data)
+
+        return False, None
 
     def delete_place(self, place_id: int) -> bool:
         """
